@@ -1,6 +1,6 @@
 package com.anuradha.sjm.controller;
 
-import com.anuradha.sjm.dto.ServiceDTO;
+import com.anuradha.sjm.InvalidInputException;
 import com.anuradha.sjm.dto.VehicleDTO;
 import com.anuradha.sjm.service.VehicleService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +21,13 @@ public class VehicleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createVehicle(@RequestBody VehicleDTO vehicleDTO) {
-        vehicleService.createService(vehicleDTO);
+    public ResponseEntity<?> createVehicle(@RequestBody VehicleDTO vehicleDTO) throws InvalidInputException {
+        vehicleService.createVehicle(vehicleDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getVehicle(@PathVariable Long id) {
-        return new ResponseEntity<>(vehicleService.getServiceById(id), HttpStatus.OK);
+        return new ResponseEntity<>(vehicleService.getVehicleById(id), HttpStatus.OK);
     }
 }

@@ -1,8 +1,13 @@
 package com.anuradha.sjm.model;
 
+import com.anuradha.sjm.dto.VehicleDTO;
+import lombok.Data;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,5 +18,12 @@ public class Vehicle {
     private String maker;
     private Integer year;
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Owner owner;
+
+    public static Vehicle valueOf(VehicleDTO vehicleDTO) {
+        Vehicle vehicle = new Vehicle();
+        BeanUtils.copyProperties(vehicleDTO, vehicle);
+        return vehicle;
+    }
 }

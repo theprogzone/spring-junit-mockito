@@ -1,5 +1,8 @@
 package com.anuradha.sjm.model;
 
+import com.anuradha.sjm.dto.OwnerDTO;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,4 +17,10 @@ public class Owner {
     private String mobile;
     private String email;
     private String address;
+
+    public static Owner valueOf(OwnerDTO ownerDTO) {
+        Owner owner = new Owner();
+        BeanUtils.copyProperties(ownerDTO, owner);
+        return owner;
+    }
 }

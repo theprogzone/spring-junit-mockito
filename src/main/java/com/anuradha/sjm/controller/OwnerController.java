@@ -1,5 +1,6 @@
 package com.anuradha.sjm.controller;
 
+import com.anuradha.sjm.InvalidInputException;
 import com.anuradha.sjm.dto.OwnerDTO;
 import com.anuradha.sjm.service.OwnerService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class OwnerController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOwner(@RequestBody OwnerDTO ownerDTO) {
+    public ResponseEntity<?> createOwner(@RequestBody OwnerDTO ownerDTO) throws InvalidInputException {
         ownerService.createOwner(ownerDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

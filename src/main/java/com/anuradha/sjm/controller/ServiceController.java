@@ -1,5 +1,6 @@
 package com.anuradha.sjm.controller;
 
+import com.anuradha.sjm.InvalidInputException;
 import com.anuradha.sjm.dto.ServiceDTO;
 import com.anuradha.sjm.service.RepairService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class ServiceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createService(@RequestBody ServiceDTO serviceDTO) {
+    public ResponseEntity<?> createService(@RequestBody ServiceDTO serviceDTO) throws InvalidInputException {
         repairService.createService(serviceDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
