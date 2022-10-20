@@ -2,6 +2,8 @@ package com.anuradha.sjm.service.impl;
 
 import com.anuradha.sjm.InvalidInputException;
 import com.anuradha.sjm.dto.ServiceDTO;
+import com.anuradha.sjm.model.ServiceItem;
+import com.anuradha.sjm.model.Vehicle;
 import com.anuradha.sjm.repository.ServiceItemRepository;
 import com.anuradha.sjm.repository.ServiceRepository;
 import com.anuradha.sjm.repository.VehicleRepository;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +38,26 @@ public class RepairServiceImpl implements RepairService {
         if (serviceDTO == null || serviceDTO.getVehicle() == null || serviceDTO.getVehicle().getId() == null) {
             throw new InvalidInputException("Invalid service details");
         }
+        Optional<Vehicle> vehicle = vehicleRepository.findById(serviceDTO.getVehicle().getId());
+        List<ServiceItem> serviceItems = new ArrayList<>();
+        List<ServiceItem> serviceItemsUpdated = new ArrayList<>();
+        if (serviceDTO.getServiceItems() != null) {
+            serviceItems = ServiceItem.valueOf(serviceDTO.getServiceItems());
+        }
         com.anuradha.sjm.model.Service service = com.anuradha.sjm.model.Service.valueOf(serviceDTO);
+        if (vehicle.isPresent()) {
+            service.setVehicle(vehicle.get());
+        } else {
+            throw new InvalidInputException("Invalid vehicle id");
+        }
         service = serviceRepository.save(service);
+        for (ServiceItem serviceItem : serviceItems) {
+            if (serviceItem != null) {
+                serviceItem.setService(service);
+                serviceItemsUpdated.add(serviceItem);
+            }
+        }
+        serviceItemRepository.saveAll(serviceItemsUpdated);
     }
 
     @Override
@@ -45,6 +66,7 @@ public class RepairServiceImpl implements RepairService {
         if (service.isPresent()) {
             ServiceDTO serviceDTO = ServiceDTO.valueOf(service.get());
             log.info("Service details => {}", serviceDTO);
+            return serviceDTO;
         }
         return new ServiceDTO();
     }

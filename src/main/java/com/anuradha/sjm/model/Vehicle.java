@@ -16,9 +16,9 @@ public class Vehicle {
     private String vehicleClass;
     private String fuel;
     private String maker;
-    private Integer year;
+    private Integer productionYear;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private Owner owner;
 
     public static Vehicle valueOf(VehicleDTO vehicleDTO) {

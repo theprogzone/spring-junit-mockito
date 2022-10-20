@@ -20,8 +20,12 @@ public class ServiceDTO {
     public static ServiceDTO valueOf(Service service) {
         ServiceDTO serviceDTO = new ServiceDTO();
         BeanUtils.copyProperties(service, serviceDTO);
-        serviceDTO.setVehicle(VehicleDTO.valueOf(service.getVehicle()));
-        serviceDTO.setServiceItems(ServiceItemDTO.valueOf(service.getServiceItems()));
+        if (service.getVehicle() != null) {
+            serviceDTO.setVehicle(VehicleDTO.valueOf(service.getVehicle()));
+        }
+        if (service.getServiceItems() != null) {
+            serviceDTO.setServiceItems(ServiceItemDTO.valueOf(service.getServiceItems()));
+        }
         return serviceDTO;
     }
 

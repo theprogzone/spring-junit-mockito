@@ -18,7 +18,7 @@ public class ServiceItem {
     private String description;
     private BigDecimal cost;
     @ManyToOne
-    @JoinColumn(name = "service_id")
+    @JoinColumn(name = "service_id", referencedColumnName = "id")
     private Service service;
 
     public static ServiceItem valueOf(ServiceItemDTO serviceItemDTO) {

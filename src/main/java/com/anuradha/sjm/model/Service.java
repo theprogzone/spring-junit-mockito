@@ -18,9 +18,9 @@ public class Service {
     private String description;
     private BigDecimal totalAmount;
     @ManyToOne
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="service")
     private List<ServiceItem> serviceItems;
 
     public static Service valueOf(ServiceDTO serviceDTO) {

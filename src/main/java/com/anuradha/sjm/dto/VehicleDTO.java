@@ -14,12 +14,17 @@ public class VehicleDTO {
     private String vehicleClass;
     private String fuel;
     private String maker;
-    private Integer year;
+    private Integer productionYear;
     private OwnerDTO owner;
 
     public static VehicleDTO valueOf(Vehicle vehicle) {
         VehicleDTO vehicleDTO = new VehicleDTO();
+        OwnerDTO ownerDTO = new OwnerDTO();
+        if (vehicle.getOwner() != null) {
+            ownerDTO = OwnerDTO.valueOf(vehicle.getOwner());
+        }
         BeanUtils.copyProperties(vehicle, vehicleDTO);
+        vehicleDTO.setOwner(ownerDTO);
         return vehicleDTO;
     }
 
